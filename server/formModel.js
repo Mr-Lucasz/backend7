@@ -9,7 +9,7 @@ export async function insertFormData(data) {
 
     if (error) throw error;
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to insert data');
+    console.error('Error details:', error); // Print out the error details
+    throw new Error('Falha ao inserir dados');
   }
 }
