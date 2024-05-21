@@ -13,3 +13,17 @@ export async function insertFormData(data) {
     throw new Error('Falha ao inserir dados');
   }
 }
+
+export async function selectFormData() {
+  try {
+    const { data, error } = await supabase
+        .from('cliente')
+        .select('*');
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error details:', error); // Print out the error details
+    throw new Error('Falha ao buscar dados');
+  }
+}
