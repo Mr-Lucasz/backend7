@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', handleFormSubmission);
 router.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('TESTANDO ROTA GET');
 });
 
 export default router;
