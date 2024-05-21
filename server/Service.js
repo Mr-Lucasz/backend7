@@ -1,11 +1,10 @@
-import axios from 'axios';
-
-const apiUrl = "https://www.agile7tech.com.br";
+// server/Service.js
+import { insertFormData } from './formModel.js';
 
 export async function submitForm(data) {
   try {
-    const response = await axios.post(`${apiUrl}/form`, data);
-    return response.data;
+    await insertFormData(data);
+    return { message: 'Data inserted successfully' };
   } catch (error) {
     console.error(error);
   }

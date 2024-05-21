@@ -1,10 +1,11 @@
-import { insertFormData } from './formModel.js';
+// server/formController.js
+import { submitForm } from './Service.js';
 
-export async function submitForm(req, res) {
+export async function handleFormSubmission(req, res) {
   const data = req.body;
   try {
-    await insertFormData(data);
-    res.status(200).send('Data inserted successfully');
+    const result = await submitForm(data);
+    res.status(200).send(result.message);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal server error');

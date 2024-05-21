@@ -1,30 +1,14 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+// server/Database.js
+import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const uri = process.env.MONGODB_URI;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
 
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-});
-
-
-export async function insertFormData(data) {
-    const collection = client.db("agile7").collection("cliente");
-    await collection.insertOne(data);
-}
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function run() {
-    try {
-        await client.connect();
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } catch (error) {
-        console.dir(error);
-    }
+    console.log("Connected to Supabase!");
 }
 run().catch(console.dir);
