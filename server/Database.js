@@ -12,3 +12,4 @@ export async function run() {
     console.log("Connected to Supabase!");
 }
 run().catch(console.dir);
+
