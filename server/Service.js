@@ -23,30 +23,30 @@ export async function getFormData() {
   }
 }
 
-const transporter = nodemailer.createTransport({
-  host: SMTP_CONFIG.host,
-  port: SMTP_CONFIG.port,
-  secure: false,
-  auth: {
-    user: SMTP_CONFIG.user,
-    pass: SMTP_CONFIG.pass,
-  },
-  tls: { rejectUnauthorized: false },
-});
-
 export async function enviarEmail(details) {
+  const transporter = nodemailer.createTransport({
+    host: SMTP_CONFIG.host,
+    port: SMTP_CONFIG.port,
+    secure: false,
+    auth: {
+      user: SMTP_CONFIG.user,
+      pass: SMTP_CONFIG.pass,
+    },
+    tls: { rejectUnauthorized: false },
+  });
+
   try {
-    console.log(transporter); // Log transporter for debugging
+  //  console.log(transporter); // Log transporter for debugging
     const mailSent = await transporter.sendMail({
       text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`,
       subject: "Novo formulário submetido",
       from: process.env.EMAIL_USER,
       to: "l.cunha14.lc@gmail.com",
     });
-    console.log(mailSent);
+   // console.log(mailSent);
     return "Email sent";
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     throw new Error("Error sending email");
   }
 }
