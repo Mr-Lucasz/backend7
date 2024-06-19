@@ -19,8 +19,8 @@ defineFeature(feature, test => {
       };
     });
 
-    when('o usuário submete o formulário com o campo "Telefone" em formato inválido', () => {
-      result = insertFormData(formData);
+    when('o usuário submete o formulário com o campo "Telefone" em formato inválido', async () => {
+      result = await insertFormData(formData);
     });
 
     then('o sistema deve exibir uma mensagem de erro indicando que o formato do telefone é inválido', () => {
@@ -43,8 +43,8 @@ defineFeature(feature, test => {
       };
     });
 
-    when('o usuário submete o formulário com o campo "Telefone" em formato válido', () => {
-      result = insertFormData(formData);
+    when('o usuário submete o formulário com o campo "Telefone" em formato válido', async () => {
+      result = await insertFormData(formData);
     });
 
     then('nenhuma mensagem de erro deve ser exibida', () => {

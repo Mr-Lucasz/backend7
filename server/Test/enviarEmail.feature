@@ -9,3 +9,8 @@ Feature: Envio de e-mail de notificação ao vendedor
     Given o usuário preencheu os campos do formulário corretamente
     When ocorre um erro no envio do e-mail
     Then o erro deve ser tratado corretamente
+
+  Scenario: Exibir mensagem de confirmação após submissão bem-sucedida
+    Given o usuário preencheu os campos do formulário corretamente
+    When o usuário submete o formulário
+    Then o sistema deve exibir uma mensagem de confirmação "Formulário enviado com sucesso."

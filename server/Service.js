@@ -6,7 +6,7 @@ import SMTP_CONFIG from "./smtp.js";
 export async function submitForm(data) {
   try {
     await insertFormData(data);
-    return { message: "Dados inseridos com sucesso" };
+    return { message: "Formulário enviado com sucesso." };
   } catch (error) {
     console.error(error);
     throw error;

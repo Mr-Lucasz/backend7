@@ -28,7 +28,8 @@ defineFeature(feature, test => {
           email: 'joao@example.com',
           telefone: '123456789',
           empresa: 'Empresa XYZ',
-          descricao: 'Descrição da necessidade'
+          mensagem: 'Descrição da necessidade',
+          checkbox: true
         }
       };
       res = {
@@ -61,7 +62,8 @@ defineFeature(feature, test => {
           email: 'joao@example.com',
           telefone: '123456789',
           empresa: 'Empresa XYZ',
-          descricao: 'Descrição da necessidade'
+          mensagem: 'Descrição da necessidade',
+          checkbox: true
         }
       };
       res = {
@@ -79,6 +81,37 @@ defineFeature(feature, test => {
       expect(submitForm).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.send).toHaveBeenCalledWith(errorMessage);
+    });
+  });
+  test('Exibir mensagem de confirmação após submissão bem-sucedida', ({ given, when, then }) => {
+    let req;
+    let res;
+
+    given('o usuário preencheu os campos do formulário corretamente', () => {
+      req = {
+        body: {
+          nome: 'João',
+          email: 'joao@example.com',
+          telefone: '123456789',
+          empresa: 'Empresa XYZ',
+          mensagem: 'Descrição da necessidade',
+          checkbox: true
+        }
+      };
+      res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn()
+      };
+    });
+
+    when('o usuário submete o formulário', async () => {
+      submitForm.mockResolvedValue({ message: 'Formulário enviado com sucesso.' });
+      await handleFormSubmission(req, res);
+    });
+
+    then('o sistema deve exibir uma mensagem de confirmação "Formulário enviado com sucesso."', () => {
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith('Formulário enviado com sucesso.');
     });
   });
 });
