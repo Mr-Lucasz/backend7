@@ -1,6 +1,8 @@
 // server/Service.js
 import { insertFormData } from './formModel.js';
 import { selectFormData } from './formModel.js';
+import nodemailer from 'nodemailer';
+
 
 export async function submitForm(data) {
   try {
@@ -21,4 +23,32 @@ export async function getFormData() {
     console.error(error);
     throw error;
   }
+}
+
+let transporter = nodemailer.createTransport({
+  
+  service: 'gmail',
+  auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+  }
+});
+
+
+
+export async function sendEmail(details) {
+  let mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: 'l.cunha14.lc@gmail.com',
+      subject: 'Novo cliente',
+      text: `Nome: ${details.name}\nEmail: ${details.email}\nMensagem: ${details.message}`
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+          console.log(error);
+      } else {
+          console.log('Email enviado: ' + info.response);
+      }
+  });
 }
