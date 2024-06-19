@@ -9,3 +9,8 @@ Feature: Verificação de armazenamento dos dados no servidor
     Given o usuário preencheu os campos do formulário corretamente
     When ocorre um erro ao armazenar os dados no servidor
     Then o erro deve ser tratado corretamente
+
+  Scenario: Exibir mensagem de confirmação após submissão bem-sucedida
+    Given o usuário preencheu os campos do formulário corretamente
+    When o usuário submete o formulário
+    Then o sistema deve exibir uma mensagem de confirmação "Formulário enviado com sucesso."
