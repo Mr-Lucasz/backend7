@@ -36,7 +36,7 @@ defineFeature(feature, test => {
       formData = {
         nome: 'João',
         email: 'joao@example.com',
-        telefone: '12345',
+        telefone: '123456789',
         empresa: 'Empresa XYZ',
         mensagem: 'Descrição da necessidade',
         checkbox: true
