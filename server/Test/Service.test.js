@@ -1,4 +1,3 @@
-// Service.test.js
 import { enviarEmail } from '../Service';
 import nodemailer from 'nodemailer';
 
@@ -13,7 +12,7 @@ describe('enviarEmail', () => {
         nodemailer.createTransport.mockReturnValue({
           sendMail: sendMailMock
         });
-      });
+    });
 
     test('should send notification email to the seller', async () => {
         const details = {

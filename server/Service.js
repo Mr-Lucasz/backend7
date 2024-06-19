@@ -36,6 +36,7 @@ const transporter = nodemailer.createTransport({
 
 export async function enviarEmail(details) {
   try {
+    console.log(transporter); // Log transporter for debugging
     const mailSent = await transporter.sendMail({
       text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`,
       subject: "Novo formulário submetido",
