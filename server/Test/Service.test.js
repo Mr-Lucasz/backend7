@@ -1,10 +1,20 @@
 // Service.test.js
-const { sendEmail } = require('../Service');
-const nodemailer = require('nodemailer');
+import { enviarEmail } from '../Service';
+import nodemailer from 'nodemailer';
 
 jest.mock('nodemailer');
 
-describe('sendEmail', () => {
+describe('enviarEmail', () => {
+    let sendMailMock;
+
+    beforeEach(() => {
+        sendMailMock = jest.fn().mockResolvedValue('Email sent');
+      
+        nodemailer.createTransport.mockReturnValue({
+          sendMail: sendMailMock
+        });
+      });
+
     test('should send notification email to the seller', async () => {
         const details = {
             nome: 'João',
@@ -14,16 +24,12 @@ describe('sendEmail', () => {
             descricao: 'Descrição da necessidade'
         };
 
-        // Mock the transporter and its sendMail method
-        const sendMailMock = jest.fn().mockResolvedValue('Email sent');
-        nodemailer.createTransport.mockReturnValue({ sendMail: sendMailMock });
-
-        const result = await sendEmail(details);
+        const result = await enviarEmail(details);
 
         expect(nodemailer.createTransport).toHaveBeenCalled();
         expect(sendMailMock).toHaveBeenCalledWith({
-            from: 'your-email@example.com',
-            to: 'vendedor@example.com',
+            from: 'l.cunha14.lc@gmail.com',
+            to: 'l.cunha14.lc@gmail.com',
             subject: 'Novo formulário submetido',
             text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`
         });
@@ -39,21 +45,19 @@ describe('sendEmail', () => {
             descricao: 'Descrição da necessidade'
         };
 
-        // Mock the transporter and its sendMail method to throw an error
         const errorMessage = 'Error sending email';
-        const sendMailMock = jest.fn().mockRejectedValue(new Error(errorMessage));
-        nodemailer.createTransport.mockReturnValue({ sendMail: sendMailMock });
+        sendMailMock.mockRejectedValue(new Error(errorMessage));
 
         try {
-            await sendEmail(details);
+            await enviarEmail(details);
         } catch (error) {
             expect(error.message).toBe(errorMessage);
         }
 
         expect(nodemailer.createTransport).toHaveBeenCalled();
         expect(sendMailMock).toHaveBeenCalledWith({
-            from: 'your-email@example.com',
-            to: 'vendedor@example.com',
+            from: 'l.cunha14.lc@gmail.com',
+            to: 'l.cunha14.lc@gmail.com',
             subject: 'Novo formulário submetido',
             text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`
         });

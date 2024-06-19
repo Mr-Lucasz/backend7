@@ -1,17 +1,14 @@
-// server/Service.js
-import { insertFormData } from './formModel.js';
-import { selectFormData } from './formModel.js';
-import nodemailer from 'nodemailer';
-import SMTP_CONFIG from './smtp.js';
-
+import { insertFormData } from "./formModel.js";
+import { selectFormData } from "./formModel.js";
+import nodemailer from "nodemailer";
+import SMTP_CONFIG from "./smtp.js";
 
 export async function submitForm(data) {
   try {
     await insertFormData(data);
-    return { message: 'Dados inseridos com sucesso' };
+    return { message: "Dados inseridos com sucesso" };
   } catch (error) {
     console.error(error);
-    // É necessário lançar o erro para que o handleFormSubmission possa capturá-lo
     throw error;
   }
 }
@@ -31,23 +28,24 @@ const transporter = nodemailer.createTransport({
   port: SMTP_CONFIG.port,
   secure: false,
   auth: {
-      user: SMTP_CONFIG.user,
-      pass: SMTP_CONFIG.pass
+    user: SMTP_CONFIG.user,
+    pass: SMTP_CONFIG.pass,
   },
-  tls: { rejectUnauthorized: false }
-
+  tls: { rejectUnauthorized: false },
 });
 
-
-
-export async function enivarEmail(details) {
-
-  const mailSent = transporter.sendMail({
-    text : `Nome: ${details.name}\nEmail: ${details.email}\nMensagem: ${details.message}`,
-    subject: 'Novo cliente',
-    from: process.env.EMAIL_USER,
-    to: 'l.cunha14.lc@gmail.com',
-  });
- console.log(mailSent);
-
+export async function enviarEmail(details) {
+  try {
+    const mailSent = await transporter.sendMail({
+      text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`,
+      subject: "Novo formulário submetido",
+      from: process.env.EMAIL_USER,
+      to: "l.cunha14.lc@gmail.com",
+    });
+    console.log(mailSent);
+    return "Email sent";
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error sending email");
+  }
 }
