@@ -1,9 +1,12 @@
-import { handleFormSubmission } from "../formController.js";
-import { submitForm } from "../Service.js";
+import { defineFeature, loadFeature } from 'jest-cucumber';
+import { handleFormSubmission } from '../formController';
+import { submitForm } from '../Service';
 
-jest.mock("../Service.js"); // Mocking the Service module
+jest.mock('../Service'); // Mocking the Service module
 
-describe("handleFormSubmission", () => {
+const feature = loadFeature('./server/Test/enviarDados.feature');
+
+defineFeature(feature, test => {
   const originalConsoleError = console.error;
 
   beforeAll(() => {
@@ -14,54 +17,68 @@ describe("handleFormSubmission", () => {
     console.error = originalConsoleError;
   });
 
-  test("should store form data correctly", async () => {
-    // Mock request and response objects
-    const req = {
-      body: {
-        nome: "João",
-        email: "joao@example.com",
-        telefone: "123456789",
-        empresa: "Empresa XYZ",
-        descricao: "Descrição da necessidade",
-      },
-    };
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-    };
+  test('Garantir que os dados do formulário são armazenados corretamente no servidor', ({ given, when, then }) => {
+    let req;
+    let res;
 
-    // Mock the submitForm function
-    submitForm.mockResolvedValue({ message: "Dados inseridos com sucesso" });
+    given('o usuário preencheu os campos do formulário corretamente', () => {
+      req = {
+        body: {
+          nome: 'João',
+          email: 'joao@example.com',
+          telefone: '123456789',
+          empresa: 'Empresa XYZ',
+          descricao: 'Descrição da necessidade'
+        }
+      };
+      res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn()
+      };
+    });
 
-    await handleFormSubmission(req, res);
+    when('o usuário submete o formulário', async () => {
+      submitForm.mockResolvedValue({ message: 'Dados inseridos com sucesso' });
+      await handleFormSubmission(req, res);
+    });
 
-    expect(submitForm).toHaveBeenCalledWith(req.body);
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.send).toHaveBeenCalledWith("Dados inseridos com sucesso");
+    then('os dados devem ser enviados e armazenados no servidor', () => {
+      expect(submitForm).toHaveBeenCalledWith(req.body);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith('Dados inseridos com sucesso');
+    });
   });
 
-  test("should handle errors correctly", async () => {
-    const req = {
-      body: {
-        nome: "João",
-        email: "joao@example.com",
-        telefone: "123456789",
-        empresa: "Empresa XYZ",
-        descricao: "Descrição da necessidade",
-      },
-    };
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-    };
+  test('Tratamento de erros ao armazenar dados', ({ given, when, then }) => {
+    let req;
+    let res;
+    const errorMessage = 'Erro ao inserir dados';
 
-    const errorMessage = "Erro ao inserir dados";
-    submitForm.mockRejectedValue(new Error(errorMessage));
+    given('o usuário preencheu os campos do formulário corretamente', () => {
+      req = {
+        body: {
+          nome: 'João',
+          email: 'joao@example.com',
+          telefone: '123456789',
+          empresa: 'Empresa XYZ',
+          descricao: 'Descrição da necessidade'
+        }
+      };
+      res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn()
+      };
+    });
 
-    await handleFormSubmission(req, res);
+    when('ocorre um erro ao armazenar os dados no servidor', async () => {
+      submitForm.mockRejectedValue(new Error(errorMessage));
+      await handleFormSubmission(req, res);
+    });
 
-    expect(submitForm).toHaveBeenCalledWith(req.body);
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send).toHaveBeenCalledWith(errorMessage);
+    then('o erro deve ser tratado corretamente', () => {
+      expect(submitForm).toHaveBeenCalledWith(req.body);
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.send).toHaveBeenCalledWith(errorMessage);
+    });
   });
 });
