@@ -15,7 +15,7 @@ defineFeature(feature, test => {
         telefone: '12345',
         empresa: 'Empresa XYZ',
         mensagem: 'Descrição da necessidade',
-        checkbox: 'TRUE'
+        checkbox: true
       };
     });
 
@@ -39,7 +39,7 @@ defineFeature(feature, test => {
         telefone: '12345',
         empresa: 'Empresa XYZ',
         mensagem: 'Descrição da necessidade',
-        checkbox: TRUE
+        checkbox: true
       };
     });
 
