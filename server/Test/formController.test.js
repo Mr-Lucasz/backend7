@@ -4,7 +4,7 @@ import { submitForm } from '../Service';
 
 jest.mock('../Service'); // Mocking the Service module
 
-const feature = loadFeature('./server/Test/enviarDados.feature');
+const feature = loadFeature('./server/Test/feature/enviarDados.feature');
 
 defineFeature(feature, test => {
   const originalConsoleError = console.error;

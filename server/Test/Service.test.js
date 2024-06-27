@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 jest.mock('nodemailer');
 
 // Ajuste o caminho relativo para o arquivo de feature
-const feature = loadFeature('./server/Test/enviarEmail.feature');
+const feature = loadFeature('./server/Test/feature/enviarEmail.feature');
 
 defineFeature(feature, test => {
     let sendMailMock;

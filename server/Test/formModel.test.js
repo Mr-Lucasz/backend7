@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import { insertFormData } from '../formModel';
 
-const feature = loadFeature('./server/Test/validacaoTelefone.feature');
+const feature = loadFeature('./server/Test/feature/validacaoTelefone.feature');
 
 defineFeature(feature, test => {
   test('Telefone inválido', ({ given, when, then }) => {
