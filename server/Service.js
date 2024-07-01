@@ -1,10 +1,10 @@
-import { insertFormData } from "./formModel.js";
-import { selectFormData } from "./formModel.js";
+import { insertFormData, selectFormData } from "./formModel.js";
 import nodemailer from "nodemailer";
 import SMTP_CONFIG from "./smtp.js";
 
 export async function submitForm(data) {
   try {
+    console.log("Dados antes de inserir no banco de dados:", data);
     await insertFormData(data);
     return { message: "Formulário enviado com sucesso." };
   } catch (error) {
@@ -36,6 +36,7 @@ export async function enviarEmail(details) {
   });
 
   try {
+    console.log("Dados antes de enviar por e-mail:", details);
     const mailSent = await transporter.sendMail({
       text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.mensagem}`,
       subject: "Novo formulário submetido",

@@ -28,7 +28,7 @@ defineFeature(feature, test => {
                 email: 'joao@example.com',
                 telefone: '123456789',
                 empresa: 'Empresa XYZ',
-                descricao: 'Descrição da necessidade'
+                mensagem: 'Descrição da necessidade'
             };
         });
 
@@ -42,7 +42,7 @@ defineFeature(feature, test => {
                 from: 'l.cunha14.lc@gmail.com',
                 to: 'l.cunha14.lc@gmail.com',
                 subject: 'Novo formulário submetido',
-                text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`
+                text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.mensagem}`
             });
             expect(result).toBe('Email sent');
         });
@@ -58,12 +58,12 @@ defineFeature(feature, test => {
                 email: 'joao@example.com',
                 telefone: '123456789',
                 empresa: 'Empresa XYZ',
-                descricao: 'Descrição da necessidade'
+                mensagem: 'Descrição da necessidade'
             };
         });
 
         when('ocorre um erro no envio do e-mail', async () => {
-            errorMessage = 'Error sending email';
+            errorMessage = 'Erro ao enviar email';
             sendMailMock.mockRejectedValue(new Error(errorMessage));
 
             try {
@@ -79,7 +79,7 @@ defineFeature(feature, test => {
                 from: 'l.cunha14.lc@gmail.com',
                 to: 'l.cunha14.lc@gmail.com',
                 subject: 'Novo formulário submetido',
-                text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.descricao}`
+                text: `Nome: ${details.nome}\nEmail: ${details.email}\nTelefone: ${details.telefone}\nEmpresa: ${details.empresa}\nDescrição: ${details.mensagem}`
             });
         });
     });
