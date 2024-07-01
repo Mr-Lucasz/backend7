@@ -1,4 +1,3 @@
-// server/formController.js
 import { submitForm } from './Service.js';
 import { getFormData } from './Service.js';
 import { enviarEmail } from './Service.js';
@@ -7,8 +6,10 @@ export async function handleFormSubmission(req, res) {
   const data = req.body;
 
   try {
+    // Primeiro, insere os dados no banco de dados
     const result = await submitForm(data);
-    await enviarEmail(data); // Pass the client data to the sendEmail function
+  
+    await enviarEmail(data);
 
     res.status(200).send(result.message);
   } catch (error) {
@@ -25,7 +26,7 @@ export async function handleFormRequest(req, res) {
     await enviarEmail(clientDetails);
     res.status(200).send(data);
   } catch (error) {
-    console.error(error);
+    console.error('Erro no handleFormRequest:', error);
     const errorMessage = error.message || 'Erro interno do servidor';
     res.status(500).send(errorMessage);
   }
