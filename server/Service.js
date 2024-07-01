@@ -5,7 +5,13 @@ import SMTP_CONFIG from "./smtp.js";
 export async function submitForm(data) {
   try {
     console.log("Dados antes de inserir no banco de dados:", data);
-    await insertFormData(data);
+    const result = await insertFormData(data);
+    console.log("Resultado da inserção no banco de dados:", result);
+
+    if (!result.success) {
+      throw new Error(result.message);
+    }
+
     return { message: "Formulário enviado com sucesso." };
   } catch (error) {
     console.error(error);
@@ -29,7 +35,7 @@ export async function enviarEmail(details) {
     port: SMTP_CONFIG.port,
     secure: false,
     auth: {
-      user: SMTP_CONFIG.user, 
+      user: SMTP_CONFIG.user,
       pass: SMTP_CONFIG.pass,
     },
     tls: { rejectUnauthorized: false },
@@ -45,7 +51,7 @@ export async function enviarEmail(details) {
     });
     return "Email sent";
   } catch (error) {
-    console.error('Erro ao enviar email:', error);
-    throw new Error('Erro ao enviar email');
+    console.error("Erro ao enviar email:", error);
+    throw new Error("Erro ao enviar email");
   }
 }

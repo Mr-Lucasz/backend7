@@ -6,13 +6,11 @@ export async function handleFormSubmission(req, res) {
   try {
     // Verifique os dados recebidos
     console.log("Dados recebidos do formulário:", data);
-
     // Primeiro, insere os dados no banco de dados
     const result = await submitForm(data);
-
+    console.log("Resultado após submitForm:", result);
     // Certifique-se de que os mesmos dados sejam enviados por e-mail
     await enviarEmail(data);
-
     res.status(200).send(result.message);
   } catch (error) {
     console.error(error);
